@@ -17,7 +17,12 @@ import { type Skill, type User } from "@shared/schema";
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<"teach" | "learn">("teach");
   const [search, setSearch] = useState("");
-  const { data: skills, isLoading } = useSkillsHook({ type: activeTab, search });
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const { data: skills, isLoading } = useSkillsHook({ 
+    type: activeTab, 
+    search, 
+    category: selectedCategory === "All" ? undefined : selectedCategory 
+  });
   const [selectedSkill, setSelectedSkill] = useState<(Skill & { user: User }) | null>(null);
 
   const requestSwap = useCreateSwapHook();
@@ -45,9 +50,12 @@ export default function HomePage() {
           {["All", "Programming", "Music", "Design", "Marketing", "Business", "Languages"].map((cat) => (
             <Button 
               key={cat} 
-              variant="outline" 
+              variant={selectedCategory === cat ? "default" : "outline"}
               size="sm" 
-              className="rounded-full px-4 h-9 border-border/50 hover:bg-primary/5 hover:border-primary/30 transition-all"
+              className={`rounded-full px-4 h-9 border-border/50 transition-all ${
+                selectedCategory === cat ? "shadow-lg shadow-primary/20" : "hover:bg-primary/5 hover:border-primary/30"
+              }`}
+              onClick={() => setSelectedCategory(cat)}
             >
               {cat}
             </Button>
