@@ -13,6 +13,7 @@ import HomePage from "@/pages/home-page";
 import MySkillsPage from "@/pages/my-skills-page";
 import RequestsPage from "@/pages/requests-page";
 import ProfilePage from "@/pages/profile-page";
+import MessagesPage from "@/pages/messages-page";
 import NotFound from "@/pages/not-found";
 
 function ProtectedRoute({ component: Component, ...rest }: any) {
@@ -39,6 +40,7 @@ function Router() {
       <Route path="/home" component={() => <ProtectedRoute component={HomePage} />} />
       <Route path="/my-skills" component={() => <ProtectedRoute component={MySkillsPage} />} />
       <Route path="/requests" component={() => <ProtectedRoute component={RequestsPage} />} />
+      <Route path="/messages" component={() => <ProtectedRoute component={MessagesPage} />} />
       <Route path="/profile" component={() => <ProtectedRoute component={ProfilePage} />} />
       <Route component={NotFound} />
     </Switch>
