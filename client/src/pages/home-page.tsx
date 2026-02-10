@@ -38,9 +38,25 @@ export default function HomePage() {
   };
 
   return (
-    <div className="p-4 md:p-0 min-h-screen">
+    <div className="min-h-screen">
+      {/* Categories Scroller */}
+      <div className="mb-8 overflow-x-auto no-scrollbar -mx-4 px-4 py-2">
+        <div className="flex gap-2 min-w-max">
+          {["All", "Programming", "Music", "Design", "Marketing", "Business", "Languages"].map((cat) => (
+            <Button 
+              key={cat} 
+              variant="outline" 
+              size="sm" 
+              className="rounded-full px-4 h-9 border-border/50 hover:bg-primary/5 hover:border-primary/30 transition-all"
+            >
+              {cat}
+            </Button>
+          ))}
+        </div>
+      </div>
+
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-md pb-4 pt-10 md:pt-0">
+      <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-md pb-4 md:hidden">
          <div className="flex items-center justify-between mb-6">
            <div>
              <h1 className="text-2xl font-display font-bold">Discover Skills</h1>
@@ -73,12 +89,30 @@ export default function HomePage() {
          </Tabs>
       </div>
 
+      {/* Desktop Specific Tab Selector (Mobile handles this in the sticky header) */}
+      <div className="hidden md:flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-display font-bold">Dashboard</h1>
+          <p className="text-muted-foreground">Swap your expertise with fellow students.</p>
+        </div>
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="w-80">
+          <TabsList className="w-full h-11 bg-muted/50 p-1 rounded-xl grid grid-cols-2">
+            <TabsTrigger value="teach" className="rounded-lg data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all">
+              Learn
+            </TabsTrigger>
+            <TabsTrigger value="learn" className="rounded-lg data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all">
+              Teach
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
       {/* Grid */}
-      <div className="mt-4 pb-20">
+      <div className="mt-4 pb-20 md:pb-0">
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-             {[1,2,3,4].map(i => (
-               <div key={i} className="h-40 rounded-2xl bg-muted animate-pulse" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+             {[1,2,3,4,5,6].map(i => (
+               <div key={i} className="h-48 rounded-2xl bg-muted animate-pulse" />
              ))}
           </div>
         ) : skills?.length === 0 ? (
@@ -90,7 +124,7 @@ export default function HomePage() {
              <p className="text-muted-foreground">Try changing your filters.</p>
            </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
               {skills?.map((skill, i) => (
                 <motion.div
@@ -100,47 +134,49 @@ export default function HomePage() {
                   transition={{ delay: i * 0.05 }}
                   layoutId={`skill-${skill.id}`}
                 >
-                  <Card className="rounded-2xl border-border/50 hover:border-primary/50 transition-colors overflow-hidden group">
-                    <CardContent className="p-5">
+                  <Card className="rounded-3xl border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden group">
+                    <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-4">
-                        <Badge variant="secondary" className="bg-secondary/10 text-secondary-foreground hover:bg-secondary/20 rounded-md px-2 py-1 font-medium text-xs uppercase tracking-wide">
+                        <Badge variant="secondary" className="bg-primary/10 text-primary border-transparent rounded-full px-3 py-1 font-semibold text-[10px] uppercase tracking-wider">
                           {skill.category}
                         </Badge>
-                        <span className="text-xs text-muted-foreground font-mono bg-muted px-2 py-1 rounded">
+                        <span className="text-[10px] text-muted-foreground font-mono bg-muted/50 px-2 py-1 rounded-lg">
                            {new Date(skill.createdAt!).toLocaleDateString()}
                         </span>
                       </div>
                       
-                      <h3 className="text-xl font-display font-bold mb-2 group-hover:text-primary transition-colors">
+                      <h3 className="text-lg font-display font-bold mb-2 group-hover:text-primary transition-colors line-clamp-1">
                         {skill.title}
                       </h3>
-                      <p className="text-muted-foreground text-sm line-clamp-2 mb-6">
+                      <p className="text-muted-foreground text-sm line-clamp-2 mb-8 min-h-[40px]">
                         {skill.description}
                       </p>
 
-                      <div className="flex items-center gap-3 pt-4 border-t border-dashed border-border">
-                        <Avatar className="h-10 w-10 border border-border">
+                      <div className="flex items-center gap-3 pt-5 border-t border-border/50">
+                        <Avatar className="h-10 w-10 ring-2 ring-background ring-offset-2 ring-offset-border/50">
                           <AvatarImage src={skill.user.profilePicture || undefined} />
                           <AvatarFallback className="bg-primary/10 text-primary font-bold">
                             {skill.user.name.charAt(0)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">{skill.user.name}</p>
-                          <p className="text-xs text-muted-foreground truncate flex items-center">
+                          <p className="text-sm font-bold truncate leading-none mb-1">{skill.user.name}</p>
+                          <p className="text-[10px] text-muted-foreground truncate flex items-center">
                             <GraduationCap className="w-3 h-3 mr-1" />
-                            {skill.user.department} • Year {skill.user.year}
+                            {skill.user.department}
                           </p>
                         </div>
-                        <Button 
-                          size="sm" 
-                          className="rounded-xl px-4 h-9 shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform"
-                          onClick={() => setSelectedSkill(skill)}
-                        >
-                          Request
-                        </Button>
                       </div>
                     </CardContent>
+                    <CardFooter className="p-0 border-t border-border/50">
+                      <Button 
+                        variant="ghost"
+                        className="w-full rounded-none h-12 text-primary font-bold hover:bg-primary hover:text-white transition-all gap-2"
+                        onClick={() => setSelectedSkill(skill)}
+                      >
+                        Request Swap <ArrowUpRight className="w-4 h-4" />
+                      </Button>
+                    </CardFooter>
                   </Card>
                 </motion.div>
               ))}
