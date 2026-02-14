@@ -44,29 +44,31 @@ export default function ProfilePage() {
           <Card className="md:col-span-2 rounded-3xl border-border/50 shadow-sm overflow-hidden h-fit">
             <div className="h-32 bg-gradient-to-r from-primary/80 via-primary to-secondary/80" />
             <CardContent className="pt-0 relative px-8 pb-8">
-              <div className="absolute -top-16 left-8">
-                <Avatar className="w-32 h-32 border-4 border-background shadow-2xl">
+              <div className="flex flex-col md:flex-row md:items-end gap-6 -mt-16 md:-mt-16 mb-6">
+                <Avatar className="w-32 h-32 border-4 border-background shadow-2xl shrink-0">
                   <AvatarImage src={user.profilePicture || undefined} />
                   <AvatarFallback className="text-4xl font-bold bg-primary text-primary-foreground">
                     {user.name.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
-              </div>
-              
-              <div className="mt-20 flex justify-between items-start">
-                <div>
-                  <h2 className="text-3xl font-bold font-display">{user.name}</h2>
-                  <div className="flex items-center text-muted-foreground mt-2 text-base">
-                    <GraduationCap className="w-5 h-5 mr-2 text-primary/70" />
-                    {user.department} • Year {user.year}
+                
+                <div className="flex-1 pb-2">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                      <h2 className="text-3xl font-bold font-display">{user.name}</h2>
+                      <div className="flex items-center text-muted-foreground mt-1 text-base">
+                        <GraduationCap className="w-5 h-5 mr-2 text-primary/70" />
+                        {user.department} • Year {user.year}
+                      </div>
+                    </div>
+                    <Badge className="w-fit rounded-full px-4 py-1 bg-primary/10 text-primary border-transparent">
+                      Verified Student
+                    </Badge>
                   </div>
                 </div>
-                <Badge className="rounded-full px-4 py-1 bg-primary/10 text-primary border-transparent">
-                  Verified Student
-                </Badge>
               </div>
 
-              <div className="mt-8">
+              <div className="mt-4">
                 <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">About Me</h3>
                 <p className="text-foreground/80 leading-relaxed">
                   {user.bio || "No bio added yet. Tell other students about your background and what you're looking to swap!"}
