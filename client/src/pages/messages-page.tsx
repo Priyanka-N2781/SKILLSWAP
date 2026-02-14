@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, User } from "lucide-react";
-import { queryClient } from "@/lib/queryClient";
+import { MessageSquare, Send, User, ArrowLeft } from "lucide-react";
+import { Link } from "wouter";
 
 export default function MessagesPage() {
   const { user } = useAuth();
@@ -16,13 +16,19 @@ export default function MessagesPage() {
   const [message, setMessage] = useState("");
 
   // In a real app, we'd fetch a list of "chats" (users you have messages with)
-  // For this MVP, we'll fetch all users except the current one to start a chat
-  const { data: users } = useQuery({
+  // For this MVP, we'll fetch all users from our seeded database to allow chatting
+  const { data: allUsers } = useQuery({
     queryKey: ["/api/users"],
     queryFn: async () => {
-      // Need to add this endpoint or just seed data
-      return []; 
-    }
+      // For MVP, we'll just show the other seeded users
+      // In a real app, this would be an API endpoint
+      const res = await fetch("/api/skills"); // Get users via skills for now
+      const skills = await res.json();
+      const users = skills.map((s: any) => s.user).filter((u: any) => u.id !== user?.id);
+      // Unique users only
+      return Array.from(new Map(users.map((u: any) => [u.id, u])).values());
+    },
+    enabled: !!user
   });
 
   const { data: messages, isLoading: isLoadingMessages } = useQuery({
@@ -64,10 +70,29 @@ export default function MessagesPage() {
         </div>
         <ScrollArea className="flex-1">
           <div className="p-2 space-y-1">
-            {/* Seeded users placeholder */}
-            <div className="p-4 text-center text-sm text-muted-foreground">
-              Chats will appear here after a swap is accepted.
-            </div>
+            {allUsers?.map((u: any) => (
+              <div 
+                key={u.id}
+                onClick={() => setSelectedUser(u.id)}
+                className={`flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all ${
+                  selectedUser === u.id ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                }`}
+              >
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src={u.profilePicture} />
+                  <AvatarFallback>{u.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="font-bold truncate text-sm">{u.name}</p>
+                  <p className="text-[10px] text-muted-foreground truncate">{u.department}</p>
+                </div>
+              </div>
+            ))}
+            {(!allUsers || allUsers.length === 0) && (
+              <div className="p-4 text-center text-sm text-muted-foreground">
+                No conversations yet.
+              </div>
+            )}
           </div>
         </ScrollArea>
       </Card>
@@ -135,5 +160,3 @@ export default function MessagesPage() {
     </div>
   );
 }
-
-import { MessageSquare } from "lucide-react";
