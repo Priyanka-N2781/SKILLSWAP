@@ -91,10 +91,10 @@ export default function HomePage() {
 
          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="w-full">
            <TabsList className="w-full h-12 bg-muted/50 p-1 rounded-xl grid grid-cols-2">
-             <TabsTrigger value="teach" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all">
+             <TabsTrigger value="learn" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all">
                Looking to Learn
              </TabsTrigger>
-             <TabsTrigger value="learn" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all">
+             <TabsTrigger value="teach" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all">
                Offering to Teach
              </TabsTrigger>
            </TabsList>
@@ -109,10 +109,10 @@ export default function HomePage() {
         </div>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="w-80">
           <TabsList className="w-full h-11 bg-muted/50 p-1 rounded-xl grid grid-cols-2">
-            <TabsTrigger value="teach" className="rounded-lg data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all">
+            <TabsTrigger value="learn" className="rounded-lg data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all">
               Learn
             </TabsTrigger>
-            <TabsTrigger value="learn" className="rounded-lg data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all">
+            <TabsTrigger value="teach" className="rounded-lg data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all">
               Teach
             </TabsTrigger>
           </TabsList>
