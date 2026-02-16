@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { type Skill, type User } from "@shared/schema";
 
 export default function HomePage() {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<"teach" | "learn">("teach");
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -23,6 +24,9 @@ export default function HomePage() {
     search, 
     category: selectedCategory === "All" ? undefined : selectedCategory 
   });
+  
+  // Filter out current user's skills from the dashboard
+  const filteredSkills = skills?.filter(s => s.userId !== user?.id);
   const [selectedSkill, setSelectedSkill] = useState<(Skill & { user: User }) | null>(null);
 
   const requestSwap = useCreateSwapHook();
@@ -115,7 +119,6 @@ export default function HomePage() {
         </Tabs>
       </div>
 
-      {/* Grid */}
       <div className="mt-4 pb-20 md:pb-0">
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -123,7 +126,7 @@ export default function HomePage() {
                <div key={i} className="h-48 rounded-2xl bg-muted animate-pulse" />
              ))}
           </div>
-        ) : skills?.length === 0 ? (
+        ) : filteredSkills?.length === 0 ? (
            <div className="text-center py-20">
              <div className="bg-muted w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                <Briefcase className="w-10 h-10 text-muted-foreground" />
@@ -134,7 +137,7 @@ export default function HomePage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
-              {skills?.map((skill, i) => (
+              {filteredSkills?.map((skill, i) => (
                 <motion.div
                   key={skill.id}
                   initial={{ opacity: 0, y: 20 }}

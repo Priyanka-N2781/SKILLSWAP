@@ -11,9 +11,9 @@ export default function ProfilePage() {
   const { user, logout } = useAuth();
 
   const { data: skills } = useQuery({
-    queryKey: ["/api/skills/me"],
+    queryKey: [api.skills.list.path], // Use the correct query key to match invalidateQueries
     queryFn: async () => {
-      const res = await fetch("/api/skills");
+      const res = await fetch(api.skills.list.path);
       const allSkills = await res.json();
       return allSkills.filter((s: any) => s.userId === user?.id);
     },
