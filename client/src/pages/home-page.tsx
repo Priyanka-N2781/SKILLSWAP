@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSkills, useCreateSwap } from "@/hooks/use-skills"; // wait, created dedicated hooks earlier
+import { useAuth } from "@/hooks/use-auth";
 import { useSkills as useSkillsHook } from "@/hooks/use-skills"; 
 import { useCreateSwap as useCreateSwapHook } from "@/hooks/use-swaps";
 import { Input } from "@/components/ui/input";
