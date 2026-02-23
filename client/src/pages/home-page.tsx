@@ -20,13 +20,20 @@ export default function HomePage() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const { data: skills, isLoading } = useSkillsHook({ 
-    type: activeTab, 
     search, 
     category: selectedCategory 
   });
   
-  // Show ALL skills including user's own skills if they match filters
-  const filteredSkills = skills;
+  // Filter skills logic:
+  // - In 'teach' tab: only show current user's skills
+  // - In 'learn' tab: show everyone ELSE's skills
+  const filteredSkills = skills?.filter(s => {
+    if (activeTab === "teach") {
+      return s.userId === user?.id;
+    } else {
+      return s.userId !== user?.id;
+    }
+  });
   const [selectedSkill, setSelectedSkill] = useState<(Skill & { user: User }) | null>(null);
 
   const requestSwap = useCreateSwapHook();
