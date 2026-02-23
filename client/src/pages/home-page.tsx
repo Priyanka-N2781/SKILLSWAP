@@ -22,11 +22,11 @@ export default function HomePage() {
   const { data: skills, isLoading } = useSkillsHook({ 
     type: activeTab, 
     search, 
-    category: selectedCategory === "All" ? undefined : selectedCategory 
+    category: selectedCategory 
   });
   
-  // Filter out current user's skills from the dashboard
-  const filteredSkills = skills?.filter(s => s.userId !== user?.id);
+  // Show ALL skills including user's own skills if they match filters
+  const filteredSkills = skills;
   const [selectedSkill, setSelectedSkill] = useState<(Skill & { user: User }) | null>(null);
 
   const requestSwap = useCreateSwapHook();

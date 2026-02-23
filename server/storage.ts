@@ -61,6 +61,21 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getSkills(filters?: { type?: string; category?: string; search?: string }): Promise<(Skill & { user: User })[]> {
+    let whereClause = undefined;
+    const conditions = [];
+
+    if (filters?.type) {
+      conditions.push(eq(skills.type, filters.type));
+    }
+    
+    if (filters?.category && filters.category !== "All") {
+      conditions.push(eq(skills.category, filters.category));
+    }
+
+    if (conditions.length > 0) {
+      whereClause = and(...conditions);
+    }
+
     const query = db.select({
       skill: skills,
       user: users,
@@ -68,11 +83,9 @@ export class DatabaseStorage implements IStorage {
     .from(skills)
     .innerJoin(users, eq(skills.userId, users.id));
 
-    if (filters?.type) {
-      // @ts-ignore - simple where filter
-      query.where(eq(skills.type, filters.type));
+    if (whereClause) {
+      query.where(whereClause);
     }
-    // Implement other filters as needed logic later if complex, for now simple type filter is key
     
     const results = await query;
     return results.map(r => ({ ...r.skill, user: r.user }));
