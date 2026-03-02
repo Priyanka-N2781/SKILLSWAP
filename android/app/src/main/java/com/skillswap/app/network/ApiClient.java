@@ -1,5 +1,6 @@
 package com.skillswap.app.network;
 
+import com.skillswap.app.utils.Config;
 import com.skillswap.app.utils.SessionManager;
 
 import java.io.IOException;
@@ -15,8 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     
-    // Change this to your actual server URL
-    private static final String BASE_URL = "http://10.0.2.2:5000/api/";
+    // Use Config class for centralized URL management
+    private static final String BASE_URL = Config.BASE_URL;
     
     private static Retrofit retrofit = null;
     private static ApiService apiService = null;
