@@ -32,24 +32,12 @@ const registerSchema = insertUserSchema.extend({
 export default function AuthPage() {
   const { login, register, verify, user } = useAuth();
   const [, setLocation] = useLocation();
-  const [activeTab, setActiveTab] = useState("login");
-  const [showOtp, setShowOtp] = useState(false);
-  const [registeredUserId, setRegisteredUserId] = useState<number | null>(null);
-  const [otp, setOtp] = useState("");
 
-  if (user) {
-    setLocation("/home");
-    return null;
-  }
-
+  // Move hooks before the conditional return
   // Login Form
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   });
-
-  function onLogin(data: z.infer<typeof loginSchema>) {
-    login.mutate(data);
-  }
 
   // Register Form
   const registerForm = useForm<z.infer<typeof registerSchema>>({
@@ -59,6 +47,20 @@ export default function AuthPage() {
       department: "Computer Science",
     },
   });
+
+  const [activeTab, setActiveTab] = useState("login");
+  const [showOtp, setShowOtp] = useState(false);
+  const [registeredUserId, setRegisteredUserId] = useState<number | null>(null);
+  const [otp, setOtp] = useState("");
+
+  function onLogin(data: z.infer<typeof loginSchema>) {
+    login.mutate(data);
+  }
+
+  if (user) {
+    setLocation("/home");
+    return null;
+  }
 
   function onRegister(data: z.infer<typeof registerSchema>) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
