@@ -1,0 +1,6 @@
+name: skillswap-backend
+version: 1
+build:
+  runtime: nodejs
+  installCommand: npm install
+  startCommand: node server.js

@@ -2,17 +2,25 @@ package com.skillswap.app.utils;
 
 /**
  * Configuration class for API endpoints
- * Change BASE_URL to your deployed backend URL when hosting
+ * 
+ * FREE HOSTING OPTIONS:
+ * 1. Railway: https://railway.app
+ * 2. Render: https://render.com  
+ * 3. Cyclic: https://cyclic.sh
+ * 4. Glitch: https://glitch.com
+ * 
+ * After deploying, replace the URL below with your live backend URL
  */
 public class Config {
     
-    // For Android Emulator (local testing): http://10.0.2.2:5000/api/
-    // For Real Device (local testing): http://YOUR_PC_IP:5000/api/
-    // For Deployed Backend: https://your-render-app-name.onrender.com/api/
+    // TODO: Replace with your deployed backend URL after hosting
+    // Examples:
+    // Railway: "https://skillswap-backend.railway.app/api/"
+    // Render: "https://your-app-name.onrender.com/api/"
+    // Cyclic: "https://your-app-name.cyclic.app/api/"
     
-    // TODO: Replace with your deployed Render URL after hosting
-    public static final String BASE_URL = "https://skillswap-backend.onrender.com/api/";
+    public static final String BASE_URL = "https://YOUR_APP_NAME.cyclic.app/api/";
     
-    // Development mode - set to false when deploying
-    public static final boolean IS_DEVELOPMENT = false;
+    // Set to false when deploying to production
+    public static final boolean DEBUG = false;
 }
