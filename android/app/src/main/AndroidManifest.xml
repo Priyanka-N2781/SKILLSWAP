@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.skillswap.app">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name=".SkillSwapApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SkillSwap"
+        android:usesCleartextTraffic="true">
+
+        <!-- Splash Activity -->
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SkillSwap.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Login Activity -->
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- Register Activity -->
+        <activity
+            android:name=".ui.auth.RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- Home Dashboard Activity -->
+        <activity
+            android:name=".ui.home.HomeDashboardActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- Add Skill Activity -->
+        <activity
+            android:name=".ui.skills.AddSkillActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- View Skills Activity -->
+        <activity
+            android:name=".ui.skills.ViewSkillsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- Skill Detail Activity -->
+        <activity
+            android:name=".ui.skills.SkillDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- Skill Requests Activity -->
+        <activity
+            android:name=".ui.requests.SkillRequestsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- Sessions Activity -->
+        <activity
+            android:name=".ui.sessions.SessionsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- Session Detail Activity -->
+        <activity
+            android:name=".ui.sessions.SessionDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- Feedback Activity -->
+        <activity
+            android:name=".ui.feedback.FeedbackActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- History Activity -->
+        <activity
+            android:name=".ui.history.HistoryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- Profile Activity -->
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- Leaderboard Activity -->
+        <activity
+            android:name=".ui.leaderboard.LeaderboardActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SkillSwap" />
+
+        <!-- Notification Receiver -->
+        <receiver
+            android:name=".utils.NotificationReceiver"
+            android:exported="false" />
+
+        <!-- Boot Receiver for scheduled notifications -->
+        <receiver
+            android:name=".utils.BootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
