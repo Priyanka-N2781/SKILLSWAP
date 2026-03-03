@@ -1,0 +1,14 @@
+[build]
+  command = "cd backend && npm install"
+  publish = "backend"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/server/:splat"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
