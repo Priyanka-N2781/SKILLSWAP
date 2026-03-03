@@ -12,8 +12,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Frontend path - works in production (Render)
-const frontendPath = path.join(__dirname, "frontend");
+// Determine paths - works in Render production
+const rootDir = path.resolve(__dirname);
+const frontendPath = path.join(rootDir, "frontend");
+
+console.log("Root dir:", rootDir);
+console.log("Frontend path:", frontendPath);
 
 // Serve static frontend files
 app.use(express.static(frontendPath));
