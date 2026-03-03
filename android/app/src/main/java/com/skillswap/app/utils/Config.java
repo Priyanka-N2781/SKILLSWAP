@@ -3,14 +3,12 @@ package com.skillswap.app.utils;
 /**
  * Configuration class for API endpoints
  * 
- * Deploy to Netlify: netlify.com
+ * Backend deployed on Netlify
  */
 public class Config {
     
-    // TODO: Replace with your Netlify backend URL after deploying
-    // Example: "https://your-app.netlify.app/api/"
-    
-    public static final String BASE_URL = "https://YOUR_APP_NAME.netlify.app/api/";
+    // Netlify backend URL
+    public static final String BASE_URL = "https://stupendous-granita-266b07.netlify.app/api/";
     
     // Set to false when deploying to production
     public static final boolean DEBUG = false;
