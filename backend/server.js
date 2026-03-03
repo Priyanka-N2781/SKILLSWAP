@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
 
+// Load env vars
 dotenv.config();
 
 const app = express(); 
@@ -11,13 +12,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Determine if running locally or on Render
-const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER;
-
-// Frontend path
-const frontendPath = isProduction 
-  ? path.join(__dirname, "frontend")
-  : path.join(__dirname, "frontend");
+// Frontend path - works in production (Render)
+const frontendPath = path.join(__dirname, "frontend");
 
 // Serve static frontend files
 app.use(express.static(frontendPath));
@@ -45,21 +41,28 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", message: "SkillSwap API is running" });
 });
 
-// Serve frontend index.html
+// Serve frontend index.html at root
 app.get("/", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
-});
-
-// Serve frontend for all other routes (SPA)
-app.get("*", (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("MongoDB Connected"))
-    .catch((err) => console.log("MongoDB connection error:", err));
+// Connect to MongoDB with error handling
+const connectDB = async () => {
+  try {
+    if (process.env.MONGO_URI) {
+      await mongoose.connect(process.env.MONGO_URI);
+      console.log("MongoDB Connected");
+    } else {
+      console.log("Warning: MONGO_URI not set");
+    }
+  } catch (err) {
+    console.log("MongoDB connection error:", err.message);
+  }
+};
+
+connectDB();
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
