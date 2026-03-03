@@ -38,4 +38,23 @@ if (MONGO_URI) {
     .catch((err) => console.log("MongoDB connection error:", err));
 }
 
+// Export for Netlify
 module.exports = app;
+
+// Netlify function handler
+module.exports.handler = async (event, context) => {
+  // Let Express handle the request
+  return new Promise((resolve, reject) => {
+    app(event, context, (err, res) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({
+          statusCode: res.statusCode,
+          headers: res.headers,
+          body: res.body
+        });
+      }
+    });
+  });
+};
