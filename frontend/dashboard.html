@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: var(--dark);
+            color: white;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            display: block;
+            border-radius: 8px;
+            margin: 4px 0;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background: var(--primary);
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        .skill-card {
+            transition: transform 0.3s;
+        }
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar p-3">
+                <h3 class="text-center mb-4"><i class="fas fa-exchange-alt"></i> SkillSwap</h3>
+                <nav>
+                    <a href="#" class="active" onclick="showSection('home')"><i class="fas fa-home me-2"></i> Home</a>
+                    <a href="#" onclick="showSection('skills')"><i class="fas fa-code me-2"></i> My Skills</a>
+                    <a href="#" onclick="showSection('add-skill')"><i class="fas fa-plus me-2"></i> Add Skill</a>
+                    <a href="#" onclick="showSection('requests')"><i class="fas fa-user-plus me-2"></i> Requests</a>
+                    <a href="#" onclick="showSection('sessions')"><i class="fas fa-calendar me-2"></i> Sessions</a>
+                    <a href="#" onclick="showSection('history')"><i class="fas fa-history me-2"></i> History</a>
+                    <a href="#" onclick="showSection('profile')"><i class="fas fa-user me-2"></i> Profile</a>
+                    <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+                </nav>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-10 p-4">
+                <!-- Home Section -->
+                <div id="home-section">
+                    <h2>Welcome back!</h2>
+                    <div class="row mt-4">
+                        <div class="col-md-3">
+                            <div class="stat-card mb-3">
+                                <h3 id="totalSkills">0</h3>
+                                <p>My Skills</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card mb-3">
+                                <h3 id="pendingRequests">0</h3>
+                                <p>Pending Requests</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card mb-3">
+                                <h3 id="totalSessions">0</h3>
+                                <p>Total Sessions</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card mb-3">
+                                <h3 id="myPoints">0</h3>
+                                <p>Points</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="mt-4">Available Skills</h4>
+                    <div class="row mt-3" id="skillsList"></div>
+                </div>
+                
+                <!-- Add Skill Section -->
+                <div id="add-skill-section" style="display: none;">
+                    <h2>Add New Skill</h2>
+                    <div class="card p-4 mt-3">
+                        <form id="addSkillForm">
+                            <div class="mb-3">
+                                <label class="form-label">Skill Name</label>
+                                <input type="text" class="form-control" id="skillName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Category</label>
+                                <select class="form-control" id="skillCategory">
+                                    <option>Programming</option>
+                                    <option>Design</option>
+                                    <option>Music</option>
+                                    <option>Language</option>
+                                    <option>Sports</option>
+                                    <option>Cooking</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Level</label>
+                                <select class="form-control" id="skillLevel">
+                                    <option>Beginner</option>
+                                    <option>Intermediate</option>
+                                    <option>Advanced</option>
+                                    <option>Expert</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" id="skillDescription" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Skill</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- My Skills Section -->
+                <div id="skills-section" style="display: none;">
+                    <h2>My Skills</h2>
+                    <div class="row mt-3" id="mySkillsList"></div>
+                </div>
+                
+                <!-- Requests Section -->
+                <div id="requests-section" style="display: none;">
+                    <h2>Skill Requests</h2>
+                    <ul class="nav nav-tabs mb-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="loadRequests('received')">Received</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="loadRequests('sent')">Sent</a>
+                        </li>
+                    </ul>
+                    <div id="requestsList"></div>
+                </div>
+                
+                <!-- Sessions Section -->
+                <div id="sessions-section" style="display: none;">
+                    <h2>Sessions</h2>
+                    <div id="sessionsList"></div>
+                </div>
+                
+                <!-- History Section -->
+                <div id="history-section" style="display: none;">
+                    <h2>History</h2>
+                    <button class="btn btn-primary mb-3" onclick="exportHistory()">Export to PDF</button>
+                    <div id="historyList"></div>
+                </div>
+                
+                <!-- Profile Section -->
+                <div id="profile-section" style="display: none;">
+                    <h2>My Profile</h2>
+                    <div class="card p-4 mt-3">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-user-circle" style="font-size: 80px; color: var(--primary);"></i>
+                            <h3 id="profileName" class="mt-3"></h3>
+                            <p id="profileEmail" class="text-muted"></p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Department:</strong> <span id="profileDepartment"></span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Year:</strong> <span id="profileYear"></span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Points:</strong> <span id="profilePoints"></span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Badges:</strong> <span id="profileBadges"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const API_URL = 'https://skillswap-api-n7yu.onrender.com/api';
+        let token = localStorage.getItem('token');
+        
+        // Check if logged in
+        if (!token) {
+            window.location.href = 'index.html';
+        }
+        
+        let user = JSON.parse(localStorage.getItem('user') || '{}');
+        
+        // Show sections
+        function showSection(section) {
+            document.querySelectorAll('[id$="-section"]').forEach(div => div.style.display = 'none');
+            document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+            
+            document.getElementById(section + '-section').style.display = 'block';
+            event.target.classList.add('active');
+            
+            // Load data based on section
+            if (section === 'home') loadDashboard();
+            if (section === 'skills') loadMySkills();
+            if (section === 'requests') loadRequests('received');
+            if (section === 'sessions') loadSessions();
+            if (section === 'history') loadHistory();
+            if (section === 'profile') loadProfile();
+        }
+        
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`${API_URL}/skills`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const skills = await response.json();
+                
+                document.getElementById('skillsList').innerHTML = skills.map(skill => `
+                    <div class="col-md-4 mb-3">
+                        <div class="card skill-card p-3">
+                            <h5>${skill.name}</h5>
+                            <p class="text-muted">${skill.category}</p>
+                            <span class="badge bg-primary">${skill.level}</span>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="requestSkill('${skill._id}')">Request</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        
+        // Add skill
+        document.getElementById('addSkillForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const skillData = {
+                name: document.getElementById('skillName').value,
+                category: document.getElementById('skillCategory').value,
+                level: document.getElementById('skillLevel').value,
+                description: document.getElementById('skillDescription').value
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/skills`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(skillData)
+                });
+                if (response.ok) {
+                    alert('Skill added successfully!');
+                    document.getElementById('addSkillForm').reset();
+                    showSection('skills');
+                }
+            } catch (error) {
+                alert('Error adding skill');
+            }
+        });
+        
+        // Load my skills
+        async function loadMySkills() {
+            // Implementation
+        }
+        
+        // Load requests
+        async function loadRequests(type) {
+            // Implementation
+        }
+        
+        // Load sessions
+        async function loadSessions() {
+            // Implementation
+        }
+        
+        // Load history
+        async function loadHistory() {
+            // Implementation
+        }
+        
+        // Load profile
+        async function loadProfile() {
+            document.getElementById('profileName').textContent = user.name || 'User';
+            document.getElementById('profileEmail').textContent = user.email || '';
+            document.getElementById('profileDepartment').textContent = user.department || 'Not set';
+            document.getElementById('profileYear').textContent = user.year || 'Not set';
+            document.getElementById('profilePoints').textContent = user.points || 0;
+            document.getElementById('profileBadges').textContent = (user.badges || []).join(', ') || 'None';
+        }
+        
+        // Request skill
+        async function requestSkill(skillId) {
+            try {
+                const response = await fetch(`${API_URL}/skill-requests`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ skillId })
+                });
+                if (response.ok) {
+                    alert('Request sent!');
+                }
+            } catch (error) {
+                alert('Error sending request');
+            }
+        }
+        
+        // Export history
+        function exportHistory() {
+            alert('PDF export coming soon!');
+        }
+        
+        // Logout
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+        
+        // Initial load
+        loadDashboard();
+    </script>
+</body>
+</html>
