@@ -27,6 +27,7 @@ mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/skillswap?retryWr
 
 ### STEP 3: Deploy Backend on Glitch (2 min)
 1. Go to: https://glitch.com
+
 2. Click "New Project" → "Import from GitHub"
 3. Enter: `Priyanka-N2781/SKILLSWAP`
 4. Click "Settings" → "Environment Variables"
