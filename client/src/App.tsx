@@ -36,12 +36,24 @@ function Router() {
   return (
     <Switch>
       <Route path="/auth" component={AuthPage} />
-      <Route path="/" component={() => <ProtectedRoute component={HomePage} />} />
-      <Route path="/home" component={() => <ProtectedRoute component={HomePage} />} />
-      <Route path="/my-skills" component={() => <ProtectedRoute component={MySkillsPage} />} />
-      <Route path="/requests" component={() => <ProtectedRoute component={RequestsPage} />} />
-      <Route path="/messages" component={() => <ProtectedRoute component={MessagesPage} />} />
-      <Route path="/profile" component={() => <ProtectedRoute component={ProfilePage} />} />
+      <Route path="/">
+        <ProtectedRoute component={HomePage} />
+      </Route>
+      <Route path="/home">
+        <ProtectedRoute component={HomePage} />
+      </Route>
+      <Route path="/my-skills">
+        <ProtectedRoute component={MySkillsPage} />
+      </Route>
+      <Route path="/requests">
+        <ProtectedRoute component={RequestsPage} />
+      </Route>
+      <Route path="/messages">
+        <ProtectedRoute component={MessagesPage} />
+      </Route>
+      <Route path="/profile">
+        <ProtectedRoute component={ProfilePage} />
+      </Route>
       <Route component={NotFound} />
     </Switch>
   );

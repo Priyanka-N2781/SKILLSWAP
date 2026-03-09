@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -37,10 +37,11 @@ export default function AuthPage() {
   const [registeredUserId, setRegisteredUserId] = useState<number | null>(null);
   const [otp, setOtp] = useState("");
 
-  if (user) {
-    setLocation("/home");
-    return null;
-  }
+  useEffect(() => {
+    if (user) {
+      setLocation("/home");
+    }
+  }, [user, setLocation]);
 
   // Login Form
   const loginForm = useForm<z.infer<typeof loginSchema>>({
