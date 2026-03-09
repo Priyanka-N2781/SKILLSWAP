@@ -10,20 +10,17 @@ const rootDir = path.resolve(__dirname);
 export default defineConfig({
   plugins: [
     react(),
-    runtimeErrorOverlay(),
-    // Replit plugins are only loaded in development environment
-    // They're not needed for Netlify production builds
   ],
+  root: path.resolve(__dirname, "client"),
   resolve: {
     alias: {
-      "@": path.resolve(rootDir, "client", "src"),
-      "@shared": path.resolve(rootDir, "shared"),
-      "@assets": path.resolve(rootDir, "attached_assets"),
+      "@": path.resolve(__dirname, "client", "src"),
+      "@shared": path.resolve(__dirname, "shared"),
+      "@assets": path.resolve(__dirname, "attached_assets"),
     },
   },
-  root: path.resolve(rootDir, "client"),
   build: {
-    outDir: path.resolve(rootDir, "dist/public"),
+    outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
   },
   server: {
