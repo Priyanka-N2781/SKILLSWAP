@@ -13,9 +13,11 @@ let clientOptions: any;
 
 if (tursoUrl) {
   // Use remote database if URL is provided (production)
+  if (isProduction) console.log("Connecting to remote Turso database...");
   clientOptions = { url: tursoUrl, authToken: tursoToken };
 } else {
   // Fallback to local file for development
+  if (isProduction) console.warn("WARNING: No DATABASE_URL found in production. Falling back to local sqlite.db");
   const dbPath = path.resolve(process.cwd(), "sqlite.db");
   clientOptions = { url: `file:${dbPath}` };
 }

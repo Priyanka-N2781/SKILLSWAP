@@ -193,7 +193,11 @@ export async function registerRoutes(
   });
 
   // === Seed Data ===
-  await seed();
+  try {
+    await seed();
+  } catch (err) {
+    console.error("Seeding failed (this is normal if tables don't exist yet):", err);
+  }
 
   return httpServer;
 }
