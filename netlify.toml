@@ -4,7 +4,6 @@
   functions = "dist"
 
 [build.environment]
-  NODE_ENV = "production"
   NETLIFY = "true"
 
 [functions]
