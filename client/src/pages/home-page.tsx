@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence } from "framer-motion";
 import { type Skill, type User } from "@shared/schema";
+import { CATEGORIES } from "@shared/constants";
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -51,7 +52,7 @@ export default function HomePage() {
       {/* Categories Scroller */}
       <div className="mb-8 overflow-x-auto no-scrollbar -mx-4 px-4 py-2">
         <div className="flex gap-2 min-w-max">
-          {["All", "Programming", "Music", "Design", "Marketing", "Business", "Languages", "Information Technology", "Agriculture", "AI", "UI/UX"].map((cat) => (
+          {["All", ...CATEGORIES].map((cat) => (
             <Button 
               key={cat} 
               variant={selectedCategory === cat ? "default" : "outline"}

@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Plus, Trash2, BookOpen, GraduationCap } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { CATEGORIES } from "@shared/constants";
 
 export default function MySkillsPage() {
   const { user } = useAuth();
@@ -81,18 +82,9 @@ export default function MySkillsPage() {
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Programming">Programming</SelectItem>
-                    <SelectItem value="Information Technology">Information Technology</SelectItem>
-                    <SelectItem value="AI">AI</SelectItem>
-                    <SelectItem value="UI/UX">UI/UX</SelectItem>
-                    <SelectItem value="Design">Design</SelectItem>
-                    <SelectItem value="Agriculture">Agriculture</SelectItem>
-                    <SelectItem value="Business">Business</SelectItem>
-                    <SelectItem value="Marketing">Marketing</SelectItem>
-                    <SelectItem value="Music">Music</SelectItem>
-                    <SelectItem value="Language">Language</SelectItem>
-                    <SelectItem value="Academic">Academic</SelectItem>
-                    <SelectItem value="Sports">Sports</SelectItem>
+                    {CATEGORIES.map(cat => (
+                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
