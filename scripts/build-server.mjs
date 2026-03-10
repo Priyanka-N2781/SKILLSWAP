@@ -43,12 +43,13 @@ await esbuild.build({
   platform: 'node',
   bundle: true,
   format: 'esm',
-  outfile: 'dist/index.mjs',
+  outfile: 'dist/functions/index.mjs',
   alias: {
     '@libsql/client': '@libsql/client/web',
   },
   define: {
     'process.env.NODE_ENV': '"production"',
+    'process.env.NETLIFY': '"true"',
   },
   minify: true,
   external: externals,

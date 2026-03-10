@@ -21,7 +21,7 @@ export async function registerRoutes(
 ): Promise<Server> {
   // Session Setup
   app.use(session({
-    secret: 'secret-key', // In prod use env var
+    secret: process.env.SESSION_SECRET || 'secret-key',
     resave: false,
     saveUninitialized: false,
     store: new SessionStore({
