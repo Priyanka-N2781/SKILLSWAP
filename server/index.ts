@@ -126,7 +126,9 @@ if (isNetlify) {
       return res.status(status).json({ message });
     });
 
-    return serverless(app);
+    return serverless(app, {
+      basePath: '/.netlify/functions/index'
+    });
   })();
 }
 

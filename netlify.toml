@@ -9,10 +9,10 @@
 [functions]
   node_bundler = "esbuild"
   
-# Route all API requests to our serverless function (`dist/index.mjs`)
+# Route all API requests to our serverless function (`dist/functions/index.mjs`)
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/index/:splat"
+  to = "/.netlify/functions/index/api/:splat"
   status = 200
 
 # Redirect frontend routes to index.html for SPA routing
