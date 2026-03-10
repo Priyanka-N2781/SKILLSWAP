@@ -28,6 +28,7 @@ const allowlist = [
   "zod",
   "zod-validation-error",
   "serverless-http",
+  "@libsql/client",
 ];
 
 const pkg = JSON.parse(readFileSync('./package.json', 'utf-8'));
