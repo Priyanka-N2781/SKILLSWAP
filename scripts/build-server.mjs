@@ -1,3 +1,4 @@
+// Sync commit to trigger Netlify build
 import * as esbuild from 'esbuild';
 import { readFileSync } from 'fs';
 
