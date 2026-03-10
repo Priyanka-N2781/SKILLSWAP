@@ -42,12 +42,19 @@ await esbuild.build({
   entryPoints: ['server/index.ts'],
   platform: 'node',
   bundle: true,
-  format: 'esm', // Changed from cjs for Netlify
-  outfile: 'dist/index.mjs', // Netlify serverless functions prefer .mjs for ESM
+  format: 'esm',
+  outfile: 'dist/index.mjs',
+  alias: {
+    '@libsql/client': '@libsql/client/web',
+  },
   define: {
     'process.env.NODE_ENV': '"production"',
   },
   minify: true,
   external: externals,
   logLevel: 'info',
+  mainFields: ['module', 'main'],
+  banner: {
+    js: "import { createRequire } from 'module'; const require = createRequire(import.meta.url);",
+  },
 });
