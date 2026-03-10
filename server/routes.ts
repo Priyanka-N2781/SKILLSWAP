@@ -51,11 +51,12 @@ export async function registerRoutes(
       // Auto-login after register? Or wait for verify? 
       // Req says verify step. So just return user.
       res.status(201).json(user);
-    } catch (err) {
+    } catch (err: any) {
+      console.error("AUTH_LOG: Registration error:", err);
       if (err instanceof z.ZodError) {
         res.status(400).json({ message: err.errors[0].message });
       } else {
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: `Registration failed: ${err.message || 'Unknown error'}` });
       }
     }
   });
