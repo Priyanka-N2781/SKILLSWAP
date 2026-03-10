@@ -1,4 +1,3 @@
-// Sync commit to trigger Netlify build
 import * as esbuild from 'esbuild';
 import { readFileSync } from 'fs';
 
@@ -55,7 +54,4 @@ await esbuild.build({
   external: externals,
   logLevel: 'info',
   mainFields: ['module', 'main'],
-  banner: {
-    js: "import { createRequire } from 'module'; const require = createRequire(import.meta.url);",
-  },
 });
