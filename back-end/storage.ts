@@ -4,8 +4,8 @@ import {
   type Skill, type InsertSkill,
   type SwapRequest, type InsertSwapRequest,
   type Message, type InsertMessage
-} from "@shared/schema";
-import { db } from "./db";
+} from "../database/schema";
+import { db } from "../database/db";
 import { eq, or, and, desc } from "drizzle-orm";
 
 export interface IStorage {

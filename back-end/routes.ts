@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { api } from "@shared/routes";
+import { api } from "./api-routes";
 import { z } from "zod";
 import session from "express-session";
 import MemoryStore from "memorystore";
@@ -171,7 +171,6 @@ async function seed() {
       phone: "1234567890",
       profilePicture: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
       bio: "Love coding and coffee",
-      isVerified: true
     });
     const u2 = await storage.createUser({
       name: "Jane Smith",
@@ -182,8 +181,11 @@ async function seed() {
       phone: "0987654321",
       profilePicture: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
       bio: "Guitarist and singer",
-      isVerified: true
     });
+    
+    // Set them as verified
+    await storage.verifyUser(u1.id);
+    await storage.verifyUser(u2.id);
 
     await storage.createSkill({
       userId: u1.id,

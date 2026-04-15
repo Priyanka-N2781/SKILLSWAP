@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { api, buildUrl, type InsertSwapRequest } from "@shared/routes";
+import { api, buildUrl } from "@api";
+import { type InsertSwapRequest } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 export function useSwaps() {

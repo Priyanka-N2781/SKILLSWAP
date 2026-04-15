@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { insertUserSchema, insertSkillSchema, insertSwapRequestSchema, insertMessageSchema, users, skills, swapRequests, messages } from './schema';
+import { insertUserSchema, insertSkillSchema, insertSwapRequestSchema, insertMessageSchema, users, skills, swapRequests, messages } from '../database/schema';
 
 export const errorSchemas = {
   validation: z.object({
@@ -103,10 +103,10 @@ export const api = {
       method: 'GET' as const,
       path: '/api/swaps' as const,
       responses: {
-        200: z.array(z.custom<typeof swapRequests.$inferSelect & { 
+        200: z.array(z.custom<typeof swapRequests.$inferSelect & {
           skill: typeof skills.$inferSelect,
           requester: typeof users.$inferSelect,
-          receiver: typeof users.$inferSelect 
+          receiver: typeof users.$inferSelect
         }>()),
         401: errorSchemas.unauthorized,
       },

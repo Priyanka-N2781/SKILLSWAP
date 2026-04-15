@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, Mail, Phone, Book, GraduationCap, Edit2, Shield, Settings, Bell, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "@shared/routes";
+import { api } from "@api";
 
 export default function ProfilePage() {
   const { user, logout } = useAuth();
@@ -27,7 +27,7 @@ export default function ProfilePage() {
 
   if (!user) return null;
 
-  const completedSwaps = swaps?.filter(s => s.status === 'accepted').length || 0;
+  const completedSwaps = Array.isArray(swaps) ? swaps.filter(s => s.status === 'accepted').length : 0;
 
   return (
     <div className="p-4 md:p-0 min-h-screen max-w-4xl mx-auto">
@@ -151,7 +151,7 @@ export default function ProfilePage() {
         <div className="mt-12">
           <div className="flex items-center justify-between mb-6 px-2">
             <h3 className="text-2xl font-display font-bold">My Skills</h3>
-            <Button variant="link" className="text-primary font-bold">View All</Button>
+            <Button variant="ghost" className="text-primary font-bold">View All</Button>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -168,7 +168,7 @@ export default function ProfilePage() {
               <Card className="col-span-full rounded-2xl border-dashed border-2 border-border/50 p-8 flex flex-col items-center justify-center text-center">
                 <Book className="w-8 h-8 text-muted-foreground mb-2" />
                 <p className="text-muted-foreground font-medium">No skills listed yet.</p>
-                <Button variant="link" className="text-primary p-0 h-auto font-bold mt-1">Add your first skill</Button>
+                <Button variant="ghost" className="text-primary p-0 h-auto font-bold mt-1">Add your first skill</Button>
               </Card>
             )}
           </div>
